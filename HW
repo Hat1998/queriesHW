@@ -1,0 +1,75 @@
+create database store;
+use store;
+create table countries(
+    code int primary key ,
+    name varchar(20) unique ,
+    continent_name varchar(20) not null
+);
+
+create table users(
+    id int primary key ,
+    full_name varchar(20) not null ,
+    email varchar(20) not null unique,
+    gender char(1) check ( gender in('m','f') ),
+    date_of_birth varchar(15),
+    created_at datetime,
+    country_code int
+    /*foreign key (country_code) references countries(code)*/
+
+);
+
+
+create table orders(
+    id int primary key ,
+    user_id  int,
+    status varchar(6) check ( status in('start','finish') ),
+    created_at datetime
+    /*foreign key (user_id) references users(id)*/
+
+
+);
+
+create table order_products(
+     order_id int ,
+     product_id int,
+     quantity int default 0
+     /*foreign key (order_id) references orders(id)*/
+    /*foreign key (product_id) references products(id)*/
+ );
+
+create table products(
+    id int primary key ,
+    name varchar(10) not null ,
+    price int default 0,
+    status varchar(10) check ( status in('valid','expired') ),
+    created_at datetime
+
+);
+
+/* add countries */
+insert into countries values('1', 'italy','Europe');
+insert into countries values('2', 'Germany','Europe');
+
+/* add users */
+insert into users(id, full_name, email, gender, date_of_birth,country_code)
+values('1', 'Hatim Hussain','Hat@gmail.com','m','12/11/1998', 000);
+
+/* add order */
+insert into orders values('1', 12,'start', '2022-12-12');
+
+/* add product */
+insert into products values('1', 'TV',1000,'valid', '2022-12-12');
+
+
+/* add order_product */
+insert into order_products values(1, 1, 1);
+
+/* Update row from countries table */
+update countries
+set name = 'England' where name = 'Italy';
+
+/* Delete row from products table */
+
+delete from products where name = 'TV';
+
+ select * from users
